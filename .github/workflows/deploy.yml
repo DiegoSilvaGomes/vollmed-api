@@ -24,6 +24,9 @@ jobs:
 
     - name: Roda Docker Compose
       run: docker compose up -d
+
+    - name: List Docker images
+      run: docker images
       
     - name: Deploy para EC2
       env:
@@ -33,9 +36,6 @@ jobs:
       run: |
           echo "$PRIVATE_KEY" > deploy_key.pem
           chmod 600 deploy_key.pem
-
-          - name: List Docker images
-            run: docker images
 
           docker save -o vollmed-api.tar vollmed-api_api:latest
 
