@@ -51,8 +51,7 @@ jobs:
           scp -v -o StrictHostKeyChecking=no -i deploy_key.pem script-deploy.sh $USER@$HOST:/home/ubuntu/
           echo "Arquivo script-deploy.sh transferido."
 
-    - name: Executar script de deploy na EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no -i deploy_key.pem $USER@$HOST "\
+          ssh -o StrictHostKeyChecking=no -i deploy_key.pem $USER@$HOST "\
           chmod +x script-deploy.sh && \
-          ./script-deploy.sh"
+          ./script-deploy.sh" | tee deploy_output.log
+
