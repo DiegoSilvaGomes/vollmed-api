@@ -39,9 +39,20 @@ jobs:
 
           docker save -o vollmed-api.tar vollmed-api-api
 
-          scp -o StrictHostKeyChecking=no -i deploy_key.pem vollmed-api.tar $USER@$HOST:/home/ubuntu/
-          scp -o StrictHostKeyChecking=no -i deploy_key.pem init.sql $USER@$HOST:/home/ubuntu/
-          scp -o StrictHostKeyChecking=no -i deploy_key.pem docker-compose-prod.yaml $USER@$HOST:/home/ubuntu/
-          scp -o StrictHostKeyChecking=no -i deploy_key.pem script-deploy.sh $USER@$HOST:/home/ubuntu/
+          scp -v -o StrictHostKeyChecking=no -i deploy_key.pem vollmed-api.tar $USER@$HOST:/home/ubuntu/
+          echo "Arquivo vollmed-api.tar transferido."
+          
+          scp -v -o StrictHostKeyChecking=no -i deploy_key.pem init.sql $USER@$HOST:/home/ubuntu/
+          echo "Arquivo init.sql transferido."
+          
+          scp -v -o StrictHostKeyChecking=no -i deploy_key.pem docker-compose-prod.yaml $USER@$HOST:/home/ubuntu/
+          echo "Arquivo docker-compose-prod.yaml transferido."
+          
+          scp -v -o StrictHostKeyChecking=no -i deploy_key.pem script-deploy.sh $USER@$HOST:/home/ubuntu/
+          echo "Arquivo script-deploy.sh transferido."
 
-          ssh -i deploy_key.pem $USER@$HOST "chmod +x script-deploy.sh && ./script-deploy.sh"
+    - name: Executar script de deploy na EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i deploy_key.pem $USER@$HOST "\
+          chmod +x script-deploy.sh && \
+          ./script-deploy.sh"
