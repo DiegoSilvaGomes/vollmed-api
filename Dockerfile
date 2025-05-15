@@ -7,8 +7,7 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-RUN chmod +x mvnw && ./mvnw package -DskipTests
+RUN chmod +x mvnw && ./mvnw package -DskipTests \
+  && cp target/*.jar app.jar
 
-ARG JAR_FILE=target/*.jar
-
-CMD java -jar ${JAR_FILE}
+CMD ["java", "-jar", "app.jar"]
